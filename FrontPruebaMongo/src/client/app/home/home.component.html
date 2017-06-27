@@ -1,0 +1,56 @@
+<p>Bienvenido, aqui la lista de los articulos publicados en el blog.</p>
+
+<table>
+  <tr>
+    <th>Nombre</th>
+    <th>Autor</th>
+    <th>Contenido</th>
+  </tr>
+  <tr *ngFor="let articulo of articulos">
+    <td>{{articulo?.nombre}}</td>
+    <td>{{articulo?.autor}}</td>
+    <td>
+         <button type="button" class="btn btn-large btn-block btn-success" (click)="verContenido(articulo)">Ver</button>
+    </td>
+  </tr>
+</table>
+
+<div class="panel panel-success" [hidden]="contenido">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{articulo?.nombre}}</h3>
+    </div>
+    <div class="panel-body">
+      {{articulo?.descripcion}}
+    </div>
+
+
+    <p>Comentarios:</p>
+    <ol class="a">
+        <li *ngFor='let comentario of articulo?.comentarios'>
+          <img *ngIf = "comentario?.tipo == 'positivo'" src="app/shared/imagenes/like.png" height="20px" />
+          <img *ngIf = "comentario?.tipo == 'negativo'" src="app/shared/imagenes/dislike.png" height="20px" />
+          {{comentario?.contenido}}</li>
+    </ol>
+
+    <div>
+  <form (submit)="addComentario()">
+        <label for="fname">Nuevo Comentario</label>
+        <input name="texComentario" type="text" id="fname" placeholder="Tu comentario" [(ngModel)]="nuevoComentario.contenido" ngDefaultControl required="required">
+
+        <label for="usuario">Usuario</label>
+        <select id="usuario" name="selectusuario" [(ngModel)]="nuevoComentario.userid" ngDefaultControl>
+          <option *ngFor="let usuario of usuarios"  name="usuComentario" [value]="usuario.id" >{{usuario?.nombre}}</option>
+        </select>
+  
+        <label>
+          <input type="radio" name="fb" value="positivo"  [(ngModel)]="nuevoComentario.tipo"/>
+          <img src="app/shared/imagenes/like.png" height="30px">
+      </label>
+      <label>
+          <input type="radio" name="fb" value="negativo" [(ngModel)]="nuevoComentario.tipo"/>
+          <img src="app/shared/imagenes/dislike.png" height="30px">
+      </label>
+        <input type="submit" value="OK">
+  </form>
+</div>
+</div>

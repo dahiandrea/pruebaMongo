@@ -1,0 +1,42 @@
+<p>Bienvenido, aqui el comportamiento de los usuarios en el blog.</p>
+
+<table>
+  <tr>
+    <th>Nombre</th>
+    <th>Edad</th>
+    <th>Comentarios</th>
+  </tr>
+  <tr *ngFor="let usuario of usuarios">
+    <td>{{usuario?.nombre}}</td>
+    <td>{{usuario?.edad}}</td>
+    <td>
+         <button type="button" class="btn btn-large btn-block btn-success" (click)="getComentarios(usuario)">Ver</button>
+    </td>
+  </tr>
+</table>
+
+<div class="panel panel-success" [hidden]="contenido">
+    <div class="panel-heading">
+      <h1 class="panel-title">{{usuario?.nombre}}</h1>
+        <table class="tablaLikes">
+          <tr>
+            <td>
+              <img src="app/shared/imagenes/like.png" height="20px" />
+              <label>{{usuario?.totalPositivos}}</label>
+              
+            </td>
+            <td>
+              <img src="app/shared/imagenes/dislike.png" height="20px" />
+              <label>{{usuario?.totalNegativos}}</label>
+            </td>
+          </tr>
+        </table>
+    </div>
+    <p>Comentarios:</p>
+    <ol class="a" *ngFor="let articulo of articulos">
+        <li *ngFor="let comentario of articulo.comentarios">
+          <img *ngIf = "comentario?.tipo == 'positivo'" src="app/shared/imagenes/like.png" height="20px" />
+          <img *ngIf = "comentario?.tipo == 'negativo'" src="app/shared/imagenes/dislike.png" height="20px" />
+          {{comentario?.fecha}} : {{comentario?.contenido}}</li>
+    </ol>
+</div>
