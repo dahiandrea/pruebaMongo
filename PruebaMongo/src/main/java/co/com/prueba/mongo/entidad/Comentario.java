@@ -2,19 +2,12 @@ package co.com.prueba.mongo.entidad;
 
 public class Comentario {
 
-    private String id;
     private String fecha;
     private String contenido;
     private String tipo;
     private String userid;
     private Usuario usuario;
     
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
     public String getFecha() {
         return fecha;
     }

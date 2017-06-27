@@ -6,7 +6,7 @@ public class Articulo {
 
     private String id;
     private String nombre;
-    private String contenido;
+    private String descripcion;
     private String autor;
     private ArrayList<Comentario> comentarios;
     
@@ -23,10 +23,10 @@ public class Articulo {
         this.nombre = nombre;
     }
     public String getContenido() {
-        return contenido;
+        return descripcion;
     }
     public void setContenido(String contenido) {
-        this.contenido = contenido;
+        this.descripcion = contenido;
     }
     public String getAutor() {
         return autor;

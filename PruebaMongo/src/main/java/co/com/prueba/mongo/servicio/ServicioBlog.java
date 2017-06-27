@@ -5,6 +5,8 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.grou
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.out;
 
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class ServicioBlog implements ServicioBlogInterface {
         Aggregation agg = newAggregation(
                 unwind("$comentarios"),
                 match(Criteria.where("comentarios.userid").is(idUsuario)),
-                group("id","comentarios")
+                group("id", "comentarios").push("comentarios").as("comentarios")
             );
 
     AggregationResults<Articulo> groupResults = mongoTemplate.aggregate(agg, Articulo.class, Articulo.class);

@@ -45,12 +45,12 @@ public class RouteController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/totalPositivos/{idUsuario}")
     public String totalPositivos(@PathVariable("idUsuario") String idUsuario) {
-        return convertJavaToJson(servicioBlog.totalPositivos(idUsuario));
+        return servicioBlog.totalPositivos(idUsuario);
     }
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/totalNegativos/{idUsuario}")
     public String totalNegativos(@PathVariable("idUsuario") String idUsuario) {
-        return convertJavaToJson(servicioBlog.totalNegativos(idUsuario));
+        return servicioBlog.totalNegativos(idUsuario);
     }
 		
 	public static String convertJavaToJson(Object objeto) {
