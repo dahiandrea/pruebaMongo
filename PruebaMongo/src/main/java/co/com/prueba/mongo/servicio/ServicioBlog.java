@@ -5,8 +5,6 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.grou
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.out;
 
 import java.util.List;
 
@@ -24,6 +22,12 @@ import co.com.prueba.mongo.repositorio.RepositorioUsuario;
 
 @Service
 public class ServicioBlog implements ServicioBlogInterface {
+
+    private static final String COMENTARIOS = "comentarios";
+
+    private static final String COMENTARIOS_USERID = "comentarios.userid";
+
+    private static final String CAMPO_COMENTARIOS = "$comentarios";
 
     @Autowired
     RepositorioArticulo repositorioArticulo;
@@ -52,9 +56,9 @@ public class ServicioBlog implements ServicioBlogInterface {
     @Override
     public List<Articulo> comentarioPorUsuario(String idUsuario) {
         Aggregation agg = newAggregation(
-                unwind("$comentarios"),
-                match(Criteria.where("comentarios.userid").is(idUsuario)),
-                group("id", "comentarios").push("comentarios").as("comentarios")
+                unwind(CAMPO_COMENTARIOS),
+                match(Criteria.where(COMENTARIOS_USERID).is(idUsuario)),
+                group("id", COMENTARIOS).push(COMENTARIOS).as(COMENTARIOS)
             );
 
     AggregationResults<Articulo> groupResults = mongoTemplate.aggregate(agg, Articulo.class, Articulo.class);
@@ -65,8 +69,8 @@ public class ServicioBlog implements ServicioBlogInterface {
     @Override
     public String totalPositivos(String idUsuario) {
         Aggregation agg = newAggregation(
-                unwind("$comentarios"),
-                match(Criteria.where("comentarios.userid").is(idUsuario)),
+                unwind(CAMPO_COMENTARIOS),
+                match(Criteria.where(COMENTARIOS_USERID).is(idUsuario)),
                 match(Criteria.where("comentarios.tipo").is("positivo")),
                 count().as("totalPositivos")
             );
@@ -78,8 +82,8 @@ public class ServicioBlog implements ServicioBlogInterface {
     @Override
     public String totalNegativos(String idUsuario) {
         Aggregation agg = newAggregation(
-                unwind("$comentarios"),
-                match(Criteria.where("comentarios.userid").is(idUsuario)),
+                unwind(CAMPO_COMENTARIOS),
+                match(Criteria.where(COMENTARIOS_USERID).is(idUsuario)),
                 match(Criteria.where("comentarios.tipo").is("negativo")),
                 count().as("totalNegativos")
             );
