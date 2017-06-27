@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'gs-accessing-data-mongodb'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+	compile ('org.springframework.boot:spring-boot-starter-web:1.4.2.RELEASE'){
+	      exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+	      exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
+	}
+	compile ('org.springframework.boot:spring-boot-starter-jetty:1.4.2.RELEASE'){
+	      exclude group: 'org.eclipse.jetty.websocket', module:'javax-websocket-server-impl'
+	      exclude group: 'org.eclipse.jetty.websocket', module:'websocket-server'
+	}
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile 'com.google.code.gson:gson:2.8.0'
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
